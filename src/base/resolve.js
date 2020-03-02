@@ -1,7 +1,8 @@
 import { clone, isFunction } from './utils';
 
 // 获取当前字段默认值
-function getDefaultValue({ default: def, enum: enums = [], type }) {
+function getDefaultValue(schema) {
+  const { default: def, enum: enums = [], type } = schema
   const defaultValue = {
     array: [],
     boolean: false,
@@ -14,7 +15,7 @@ function getDefaultValue({ default: def, enum: enums = [], type }) {
   };
 
   if (isFunction(def)) {
-    return defaultValue[type];
+    return def(schema)
   }
   if (isFunction(enums)) {
     if (type === 'array') {
